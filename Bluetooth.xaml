@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bluetooth.Bluetooth"
+             Title="Bluetooth Share">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Header -->
+            <Label Text="Bluetooth Share"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Open this app on both devices before transferring."
+                   FontSize="13"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"/>
+
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,4"/>
+
+            <!-- ── RECEIVER SECTION ── -->
+            <Border Stroke="#2196F3"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="16">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="📥  This Device = Receiver"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2196F3"/>
+
+                    <Label Text="Tap below so this device waits for incoming data."
+                           FontSize="13" TextColor="Gray"/>
+
+                    <Button x:Name="StartReceivingButton"
+                            Text="Start Receiving"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Clicked="OnStartReceiving"/>
+
+                    <Label x:Name="ReceivingStatusLabel"
+                           Text="Status: idle"
+                           FontSize="13"
+                           TextColor="Gray"/>
+
+                    <BoxView HeightRequest="1" Color="LightGray"/>
+
+                    <!-- Received text -->
+                    <Label Text="Received Text:"
+                           FontAttributes="Bold"
+                           FontSize="14"/>
+
+                    <Border Stroke="LightGray"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="10">
+                        <Label x:Name="ReceivedTextLabel"
+                               Text="(nothing received yet)"
+                               FontSize="14"
+                               LineBreakMode="WordWrap"
+                               TextColor="Gray"/>
+                    </Border>
+
+                    <!-- Received image -->
+                    <Label Text="Received Image:"
+                           FontAttributes="Bold"
+                           FontSize="14"/>
+
+                    <Border x:Name="ReceivedImageBorder"
+                            Stroke="LightGray"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="4"
+                            IsVisible="False">
+                        <Image x:Name="ReceivedImage"
+                               HeightRequest="220"
+                               Aspect="AspectFit"/>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ── SENDER SECTION ── -->
+            <Border Stroke="#4CAF50"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="16">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="📤  This Device = Sender"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#4CAF50"/>
+
+                    <Label Text="Make sure the other device has tapped 'Start Receiving' first."
+                           FontSize="13" TextColor="Gray"/>
+
+                    <!-- Step 1: Scan -->
+                    <Label Text="Step 1 — Find the receiver device"
+                           FontAttributes="Bold" FontSize="14"/>
+
+                    <Button Text="Scan Paired Devices"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Clicked="OnScanDevices"/>
+
+                    <Picker x:Name="DevicePicker"
+                            Title="Select receiver device..."
+                            SelectedIndexChanged="OnDeviceSelected"/>
+
+                    <Label x:Name="ConnectStatusLabel"
+                           Text=""
+                           FontSize="13"
+                           TextColor="Gray"/>
+
+                    <BoxView HeightRequest="1" Color="LightGray"/>
+
+                    <!-- Step 2a: Send text -->
+                    <Label Text="Step 2a — Send a text message"
+                           FontAttributes="Bold" FontSize="14"/>
+
+                    <Entry x:Name="MessageEntry"
+                           Placeholder="Type your message here..."
+                           FontSize="14"/>
+
+                    <Button Text="Send Text"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Clicked="OnSendText"/>
+
+                    <BoxView HeightRequest="1" Color="LightGray"/>
+
+                    <!-- Step 2b: Send image -->
+                    <Label Text="Step 2b — Send an image"
+                           FontAttributes="Bold" FontSize="14"/>
+
+                    <Button Text="Pick Image from Gallery"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Clicked="OnPickImage"/>
+
+                    <Image x:Name="SelectedImagePreview"
+                           HeightRequest="160"
+                           Aspect="AspectFit"
+                           IsVisible="False"/>
+
+                    <Button x:Name="SendImageButton"
+                            Text="Send Image"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            IsEnabled="False"
+                            Clicked="OnSendImage"/>
+
+                    <Label x:Name="SendStatusLabel"
+                           Text=""
+                           FontSize="13"
+                           HorizontalOptions="Center"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
