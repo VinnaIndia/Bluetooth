@@ -6,7 +6,7 @@ on:
 
     branches:
 
-      - master
+      - development
  
 jobs:
 
@@ -137,6 +137,5 @@ jobs:
           --app "${{ secrets.FIREBASE_APP_ID }}" `
 
           --groups "testing-team"
-          --groups "production-group"
-          --groups "dev-group"
+          
  
