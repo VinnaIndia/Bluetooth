@@ -132,6 +132,6 @@ jobs:
         firebase appdistribution:distribute `
           $apk.FullName `
           --app "${{ secrets.FIREBASE_APP_ID }}" `
-          --groups "testing-team"
+          --groups "testing-group"
           
  
