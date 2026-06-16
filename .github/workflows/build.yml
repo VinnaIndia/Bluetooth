@@ -64,11 +64,7 @@ jobs:
 
       run: dotnet build Bluetooth.csproj -f net9.0-android -c Release
  
-    - name: Publish Signed APK
-
-      shell: pwsh
-
-      run: |
+    
 
     - name: Publish Signed APK
       shell: pwsh
