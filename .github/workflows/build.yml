@@ -66,23 +66,23 @@ jobs:
  
     - name: Publish Signed APK
 
+      shell: pwsh
+
       run: |
 
-        dotnet publish Bluetooth.csproj
+        dotnet publish Bluetooth.csproj 
+          -f net9.0-android 
+          -c Release
 
-        -f net9.0-android
+          -p:AndroidKeyStore=true
 
-        -c Release
+          -p:AndroidSigningKeyStore=company-release.jks
 
-        /p:AndroidKeyStore=true
+          -p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
-        /p:AndroidSigningKeyStore=company-release.jks
+          -p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
 
-        /p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-
-        /p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-
-        /p:AndroidSigningKeyPass=${{ secrets.ANDROID_KEY_PASSWORD }}
+          -p:AndroidSigningKeyPass=${{ secrets.ANDROID_KEY_PASSWORD }}
  
     - name: Upload APK Artifact
 
