@@ -130,11 +130,8 @@ jobs:
         $apk = Get-ChildItem -Recurse -Filter *.apk | Select-Object -First 1
  
         firebase appdistribution:distribute `
-
           $apk.FullName `
-
           --app "${{ secrets.FIREBASE_APP_ID }}" `
-
           --groups "testing-team"
           
  
