@@ -111,5 +111,5 @@ jobs:
         firebase appdistribution:distribute `
           $env:APK_PATH `
           --app "${{ secrets.FIREBASE_APP_ID }}" `
-          --groups "$env:FIREBASE_GROUP"
+          --groups "$env:FIREBASE_GROUP" `
           --release-notes-file release-notes.txt
