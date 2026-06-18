@@ -20,11 +20,11 @@ jobs:
       run: |
         if ("${{ github.ref_name }}" -eq "development") {
           echo "FIREBASE_GROUP=testing-group" >> $env:GITHUB_ENV
-          echo "APK_NAME=Bluetooth-Dev.apk" >> $env:GITHUB_ENV
+          echo "APK_NAME=Bluetooth-Dev-${{ github.run_number }}.apk" >> $env:GITHUB_ENV
         }
         else {
           echo "FIREBASE_GROUP=production-group" >> $env:GITHUB_ENV
-          echo "APK_NAME=Bluetooth-Prod.apk" >> $env:GITHUB_ENV
+          echo "APK_NAME=Bluetooth-Prod-${{ github.run_number }}.apk" >> $env:GITHUB_ENV
         }
 
     - name: Setup .NET
@@ -61,6 +61,7 @@ jobs:
         dotnet publish Bluetooth.csproj `
           -f net9.0-android `
           -c Release `
+          -p:ApplicationVersion=${{ github.run_number }} `
           -p:AndroidPackageFormat=apk `
           -p:AndroidKeyStore=true `
           -p:AndroidSigningKeyStore=company-release.jks `
@@ -73,13 +74,19 @@ jobs:
       run: |
         $apk = Get-ChildItem -Recurse -Filter *.apk | Select-Object -First 1
         Copy-Item $apk.FullName $env:APK_NAME
+        "APK_PATH=$env:APK_NAME" >> $env:GITHUB_ENV
+        
+    - name: Generate Release Notes 
+      shell: pwsh 
+      run: | 
+        git log -10 --pretty=format:"- %s" > release-notes.txt
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: AndroidAPK
-        path: |
-          *.apk
+        name: ${{ env.APK_NAME }} 
+        path: ${{ env.APK_NAME }}
+       
 
     # Install Firebase CLI
     - name: Install Firebase CLI
@@ -102,6 +109,7 @@ jobs:
         $apk = Get-ChildItem -Filter *.apk | Select-Object -First 1
 
         firebase appdistribution:distribute `
-          $apk.FullName `
+          $env:APK_PATH `
           --app "${{ secrets.FIREBASE_APP_ID }}" `
           --groups "$env:FIREBASE_GROUP"
+          --release-notes-file release-notes.txt
