@@ -79,6 +79,21 @@ jobs:
     - name: Generate Release Notes 
       shell: pwsh 
       run: | 
+        if ("${{ github.ref_name }}" -eq "development") {
+          $environment = "Development"
+        }
+        else {
+          $environment = "Production"
+        }
+
+        @"
+        Environment: $environment
+        APK: $env:APK_NAME
+        Build Number: ${{ github.run_number }}
+        Branch: ${{ github.ref_name }}
+
+        Recent Changes:
+        "@ | Out-File release-notes.txt
         git log -10 --pretty=format:"- %s" > release-notes.txt
 
     - name: Upload APK Artifact
